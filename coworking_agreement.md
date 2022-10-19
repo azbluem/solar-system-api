@@ -3,23 +3,31 @@
 Talk through each section with your partner. Add notes on what you discussed and agreed upon in each section. At the bottom, type your names to sign off on your agreement.
 
 ## Accessibility Needs
-*What does each team member need access to in order to succeed and show up the best they can?*
+Margaret: needs screens to be bright
+Alexis:
 
 ## Collaboration vs. individual work expectations
-*Clarify your collaboration expectations- does your group want to write code together all of the time? Or divide work to do independently, then come together to share accomplishments? What tools and technologies can help your collaboration?*
+I hope we can just get everything done in class...
+Doing individual is ok if we need to
+Margaret: I prefer Ping Pong
+Alexis: No preference
 
 ## Learning Style
-*How does each team member learn best in project settings?*
+Margaret: Random bullshit go
+Alexis: Watch and then do it yourself
 
 ## Preferred Feedback Style
-*How does each team member best receive feedback?*
+Margaret: Talking
+Alexis: Direct
 
 ## One Team Communication Skill to Improve
-*What is a teamwork-related skill you want to work on?*
+Margaret: Expressing more precisely what to do
+Alexis: Talking through code
 
 ## Optional: Other agreements
 *Other co-working agreements that were not captured in the above sections.*
+No last minute plz
 
 ## Signatures
-______________ _______________
-Date: _________
+Margaret Lu,  Alexis Miller
+Date: Oct 19, 2022
