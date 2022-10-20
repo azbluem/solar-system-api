@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, abort, make_response
 
 planet_bp = Blueprint("planet_bp",__name__,url_prefix="/planets")
 
@@ -24,3 +24,23 @@ def get_all_planets():
             "population":planet.population
         })
     return jsonify(planet_list)
+
+@planet_bp.route("/<planet_id>", methods=["GET"])
+def get_one_planet(planet_id):
+    planet = validate_planet(planet_id)
+    return ({
+            "id":planet.id,
+            "name":planet.name,
+            "description":planet.description,
+            "population":planet.population
+        })
+
+def validate_planet(planet_id):
+    try:
+        planet_id = int(planet_id)
+    except:
+        abort(make_response({"message":f"Planet with ID {planet_id} invalid"}, 400))
+    for obj in planets:
+        if obj.id==planet_id:
+            return obj
+    abort(make_response({"message":f"Planet with ID {planet_id} not in solar system"}, 404))
