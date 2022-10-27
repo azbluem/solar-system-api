@@ -55,3 +55,12 @@ def validate_planet(planet_id):
     if not planet:
         abort(make_response({"message":f"Planet with ID {planet_id} not in solar system"}, 404))
     return planet
+
+@planet_bp.route('/<planet_id>', methods=['DELETE'])
+def blow_planet_up(planet_id):
+    planet = validate_planet(planet_id)
+
+    db.session.delete(planet)
+    db.session.commit()
+
+    return make_response(f'Planet with ID {planet.id} targetted by death star',202)
