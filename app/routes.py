@@ -1,21 +1,32 @@
-from flask import Blueprint, jsonify, abort, make_response
+from flask import Blueprint, jsonify, abort, make_response, request
+from app.models.planet import Planet
+from app import db
 
 planet_bp = Blueprint("planet_bp",__name__,url_prefix="/planets")
 
-class Planet():
-    def __init__(self, id, name, description, population):
-        self.id = id
-        self.name = name
-        self.description = description
-        self.population = population
 
-planets = [Planet(1,"Mercury","It's solid",0),
-        Planet(2,"Mars","It's red",1000000),
-        Planet(3,"Earth","The blue marble",8000000000)]
+# planets = [Planet(1,"Mercury","It's solid",0),
+#         Planet(2,"Mars","It's red",1000000),
+#         Planet(3,"Earth","The blue marble",8000000000)]
+
+@planet_bp.route("", methods=['POST'])
+def make_planet():
+    response_body = request.get_json()
+    new_planet = Planet(
+        name=response_body["name"],
+        description=response_body["description"],
+        population=response_body["population"]
+    )
+
+    db.session.add(new_planet)
+    db.session.commit()
+
+    return make_response(jsonify(f"Planet {new_planet.name} was created"),201)
 
 @planet_bp.route('', methods=['GET'])
 def get_all_planets():
     planet_list=[]
+    planets = Planet.query.all()
     for planet in planets:
         planet_list.append({
             "id":planet.id,
@@ -40,7 +51,7 @@ def validate_planet(planet_id):
         planet_id = int(planet_id)
     except:
         abort(make_response({"message":f"Planet with ID {planet_id} invalid"}, 400))
-    for obj in planets:
-        if obj.id==planet_id:
-            return obj
-    abort(make_response({"message":f"Planet with ID {planet_id} not in solar system"}, 404))
+    planet = Planet.query.get(planet_id)
+    if not planet:
+        abort(make_response({"message":f"Planet with ID {planet_id} not in solar system"}, 404))
+    return planet
