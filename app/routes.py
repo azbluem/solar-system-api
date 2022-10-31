@@ -28,23 +28,13 @@ def get_all_planets():
     planet_list=[]
     planets = Planet.query.all()
     for planet in planets:
-        planet_list.append({
-            "id":planet.id,
-            "name":planet.name,
-            "description":planet.description,
-            "population":planet.population
-        })
-    return jsonify(planet_list)
+        planet_list.append(planet.dictionfy())
+    return make_response(jsonify(planet_list),200)
 
 @planet_bp.route("/<planet_id>", methods=["GET"])
 def get_one_planet(planet_id):
     planet = validate_planet(planet_id)
-    return ({
-            "id":planet.id,
-            "name":planet.name,
-            "description":planet.description,
-            "population":planet.population
-        })
+    return make_response(planet.dictionfy(),200)
 
 def validate_planet(planet_id):
     try:
@@ -55,6 +45,22 @@ def validate_planet(planet_id):
     if not planet:
         abort(make_response({"message":f"Planet with ID {planet_id} not in solar system"}, 404))
     return planet
+
+@planet_bp.route('/<planet_id>', methods = ['PUT'])
+def modify_planet(planet_id):
+    planet = validate_planet(planet_id)
+    response_body = request.get_json()
+    try:
+        planet.name = response_body["name"]
+        planet.description = response_body["description"]
+        planet.population = response_body["population"]
+    except KeyError:
+        return make_response("You must input all of the following planet characteristics: name, description, population.")
+    
+    db.session.commit()
+
+    return make_response(f'Planet with planet ID {planet.id} updated to {planet.name}')
+
 
 @planet_bp.route('/<planet_id>', methods=['DELETE'])
 def blow_planet_up(planet_id):

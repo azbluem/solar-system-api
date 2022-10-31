@@ -5,3 +5,11 @@ class Planet(db.Model):
     name = db.Column(db.String)
     description = db.Column(db.String)
     population = db.Column(db.Integer)
+    
+    def dictionfy(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "population": self.population
+        }
