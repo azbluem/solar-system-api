@@ -4,7 +4,7 @@ class Planet(db.Model):
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     name = db.Column(db.String)
     description = db.Column(db.String)
-    population = db.Column(db.Integer)
+    population = db.Column(db.BigInteger)
     
     def dictionfy(self):
         return {

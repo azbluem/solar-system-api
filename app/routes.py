@@ -1,3 +1,4 @@
+import re
 from flask import Blueprint, jsonify, abort, make_response, request
 from app.models.planet import Planet
 from app import db
@@ -25,8 +26,18 @@ def make_planet():
 
 @planet_bp.route('', methods=['GET'])
 def get_all_planets():
+    name_query = request.args.get('name')
+    description_query = request.args.get('description')
+    population_query = request.args.get('population')
+    if name_query:
+        planets = Planet.query.filter_by(name=name_query)
+    elif population_query:
+        planets = Planet.query.filter(Planet.population>=population_query).all()
+    elif description_query:
+        planets = Planet.query.filter(Planet.description.contains(description_query)).all()
+    else:
+        planets = Planet.query.all()
     planet_list=[]
-    planets = Planet.query.all()
     for planet in planets:
         planet_list.append(planet.dictionfy())
     return make_response(jsonify(planet_list),200)
