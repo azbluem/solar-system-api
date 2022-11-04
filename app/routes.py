@@ -1,4 +1,3 @@
-import re
 from flask import Blueprint, jsonify, abort, make_response, request
 from app.models.planet import Planet
 from app import db
